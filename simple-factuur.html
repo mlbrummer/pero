@@ -1,0 +1,372 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+	
+	<title>PERO Factuur</title>
+	
+	<link rel='stylesheet' type='text/css' href='css/style.css' />
+	<link rel='stylesheet' type='text/css' href='css/print.css' media="print" />
+	<script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
+	<script type='text/javascript' src='js/example.js'></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+	
+	<style>
+	#hiderow,
+	.delete {
+		display: none;
+	}
+	* { margin: 0; padding: 0; }
+body { font: 14px/1.4 'Montserrat', serif; }
+#page-wrap { width: 750px; margin: 0 auto; }
+
+textarea { border: 0; font: 14px Georgia, Serif; overflow: hidden; resize: none; }
+table { border-collapse: separate; border:solid black 1px; border-radius:6px; border-bottom: 2px solid grey; border-right: 3px solid grey;}
+table td, table th { border: 1px solid black; padding: 5px; border-radius:6px;}
+
+#header { 
+	border-radius: 10px; 
+	height: 28px; 
+	width: 100%;
+	margin: 20px 0; 
+	background-color: #18995b;
+	background-image: linear-gradient(96deg, #18995b 0%, #18665d 100%);
+	background-size: 100%;
+	background-repeat: repeat;
+	text-align: center; 
+	color: white; 
+	font: bold 20px 'Montserrat', serif; 
+	text-decoration: uppercase; 
+	letter-spacing: 20px; 
+	padding: 8px 0px; 
+	line-height: 30px; 
+	-webkit-print-color-adjust: exact;
+}
+#header:hover{
+	color: #000;
+	background-color: #ecefb1;
+	background-image: none;
+	border: solid black 1px;
+}
+
+#address { 
+	width: 250px; 
+	height: 170px; 
+	float: left; 
+	line-height: 20px; 
+	font: 14px 'Montserrat', serif;
+}
+
+#customer { 
+	overflow: hidden; 
+	font: bold 14px 'Montserrat', serif;
+}
+
+#logo { 
+	text-align: right; 
+	float: right; 
+	position: relative; 
+	margin-top: 25px; 
+	border: 1px solid #fff; 
+	max-width: 540px; 
+	max-height: 100px; 
+	overflow: hidden; 
+}
+
+#logo:hover, #logo.edit { 
+	border: 1px solid #3d3c3c; 
+	margin-top: 0px; 
+	max-height: 125px; 
+	border-radius: 3px;
+}
+
+#logoctr { 
+	display: none; 
+}
+
+#logo:hover #logoctr, #logo.edit #logoctr { 
+	display: block; 
+	text-align: right; 
+	line-height: 25px; 
+	background: #ea9898; 
+	padding: 0 5px; 
+}
+
+#logohelp { 
+	text-align: left; 
+	display: none; 
+	font-style: italic; 
+	padding: 10px 5px
+}
+
+#logohelp input { 
+	margin-bottom: 5px; 
+}
+
+.edit #logohelp { 
+	display: block; 
+}
+
+.edit #save-logo, .edit #cancel-logo { 
+	display: inline; 
+}
+
+.edit #image, #save-logo, #cancel-logo, .edit #change-logo, .edit #delete-logo { 
+	display: none;
+}
+
+#customer-title {
+	width: 400px; 
+	height: 50px;  
+	font-size: 20px; 
+	font-weight: bold; 
+	float: left; 
+	font: bold 20px 'Montserrat', serif;
+}
+#customer-ref {
+	width: 400px; 
+	height: 100px;  
+	font-size: 14px; 
+	font-weight: bold; 
+	/* float: left;  */
+	/* display: inline-block; */
+	font: 14px 'Montserrat', serif;
+}
+#meta { 
+	margin-top: 1px; 
+	width: 300px; 
+	float: right; 
+}
+
+#meta td { 
+	text-align: right;  
+}
+
+#meta td.meta-head { 
+	text-align: left; 
+	background: #eee; 
+}
+
+#meta td textarea { 
+	width: 100%; 
+	height: 20px; 
+	text-align: right; 
+}
+
+#items { 
+	clear: both; 
+	width: 100%; 
+	margin: 20px 0 0 0; 
+	border: 1px solid black; 
+}
+#items th { 
+	background: #eee; 
+}
+#items textarea { 
+	width: 80px;
+	height: 40px; 
+	font: 13px 'Montserrat', serif;
+}
+#items tr.item-row td { 
+	border: 0; 
+	vertical-align: top; 
+}
+#items td.description { 
+	width: 300px; 
+}
+#items td.item-name { 
+	width: 175px; 
+}
+#items td.description textarea, #items td.item-name textarea {
+	width: 100%; 
+}
+#items td.total-line { 
+	border-right: 0; 
+	text-align: right; 
+}
+#items td.total-value { 
+	border-left: 0; 
+	padding: 10px; 
+}
+#items td.total-value textarea { 
+	height: 20px; 
+	background: none; 
+}
+#items td.balance { 
+	background: #eee; 
+}
+#items td.blank { 
+	border: 0; 
+}
+
+#info { 
+	text-align: center; 
+	margin: 20px 0 0 0; 
+}
+#info h5 { 
+	text-transform: uppercase; 
+	font: 13px 'Montserrat', serif; 
+	letter-spacing: 10px; 
+	border-bottom: 1px solid black; 
+	padding: 0 0 8px 0; 
+	margin: 0 0 8px 0; 
+}
+#info textarea { 
+	width: 100%; 
+	text-align: center;
+}
+
+#terms { 
+	text-align: center; 
+	margin: 20px 0 0 0; 
+}
+#terms h5 { 
+	text-transform: uppercase; 
+	font: 13px 'Montserrat', serif; 
+	letter-spacing: 10px; 
+	border-bottom: 1px solid black; 
+	padding: 0 0 8px 0; 
+	margin: 0 0 8px 0; 
+}
+#terms textarea { 
+	width: 100%; 
+	text-align: center;
+	font: italic 'Montserrat', serif; 
+
+}
+
+textarea:hover, textarea:focus, #items td.total-value textarea:hover, #items td.total-value textarea:focus,  .delete:hover { 
+	background-color:#EEFF88;
+	border-radius: 5px;
+}
+
+.delete-wpr { 
+	position: relative; 
+	border-radius: 4px;
+}
+.delete { 
+	display: block; 
+	color: #000; 
+	text-decoration: none; 
+	position: absolute; 
+	background: #ffbaba; 
+	font-weight: bold; 
+	padding: 0px 3px; 
+	border: 1px solid; 
+	top: -6px; 
+	left: -22px; 
+	font-family: Verdana; 
+	font-size: 12px; 
+}
+
+@print { 
+    @page :footer { 
+        display: none
+    } 
+  
+    @page :header { 
+        display: none
+    } 
+} 
+@media print {
+	@page {
+	  size: auto;
+	  margin: 5mm;
+	}
+  
+	/* in case @page {margin: 5cm 0 5cm 0;} doesn't work */
+	body {
+	  padding-top: 1cm !important;
+	  padding-bottom: 1cm !important;
+	  /* padding-left: 0.5cm !important; */
+	  /* padding-right: 0.5cm !important; */
+	}
+  }
+</style>
+</head>
+
+<body>
+
+	<div id="page-wrap">
+
+		<textarea id="header">Factuur</textarea>
+		
+		<div id="identity" style="text-size-adjust: 14;">
+		
+            <textarea id="address">PERO Systems B.V.
+Peizerweg 132 unit 1
+9727AN, Groningen
+
+
+KVK   : 82213976
+BTW  : NL 8623.78.862.B01
+IBAN : NL05 INGB 0008 6079 04
+</textarea>
+
+            <div id="logo">
+
+              <div id="logoctr">
+                <a href="javascript:;" id="change-logo" title="Change logo">Change Logo</a>
+                <a href="javascript:;" id="save-logo" title="Save changes">Save</a>
+                |
+                <a href="javascript:;" id="delete-logo" title="Delete logo">Delete Logo</a>
+                <a href="javascript:;" id="cancel-logo" title="Cancel changes">Cancel</a>
+              </div>
+
+              <div id="logohelp">
+                <input id="imageloc" type="text" size="50" value="" /><br />
+                (max width: 540px, max height: 100px)
+              </div>
+               <img id="image" src="https://www.perosystems.com/images/pero_logo.svg" alt="logo" />
+            </div>
+		
+		</div>
+		
+		<div style="clear:both"></div>
+		
+		<div id="customer">
+
+            <textarea id="customer-title">Belangrijk bedrijf</textarea>
+			<textarea id="customer-ref">Referentie:</textarea>
+            <table id="meta">
+                <tr>
+                    <td class="meta-head">Factuur #</td>
+                    <td><textarea id="factuur">{{FACTUUR_ID}}</textarea></td>
+                </tr>
+                <tr>
+
+                    <td class="meta-head">Datum</td>
+                    <td><textarea id="date">{{DATUM}}</textarea></td>
+                </tr>
+                <tr>
+                    <td class="meta-head">Te betalen</td>
+                    <td><div class="due">€{{TE_BETALEN}}</div></td>
+                </tr>
+
+            </table>
+
+		</div>
+		<br>
+		<table id="meta">
+		<tr>
+                    <td class="meta-head">Uurtarief</td>
+                    <td><textarea>€{{UURTARIEF}}</textarea></td>
+		</tr>
+		</table>
+		<br>
+</br>
+		<div id="terms">
+		  <h5>Voorwaarden</h5>
+		  <textarea>Wilt u dit bedrag, met vermelding van het factuurnummer, per omgaande overmaken
+naar het rekeningnummer van PERO Systems B.V., Groningen, The Netherlands.</textarea>
+		</div>
+		
+	</div>
+
+</body>
+
+</html>
